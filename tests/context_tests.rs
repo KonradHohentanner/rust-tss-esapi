@@ -344,6 +344,31 @@ mod test_get_capability {
     }
 }
 
+mod test_pcr_extend {
+    use super::*;
+
+    #[test]
+    fn test_pcr_extend_command() {
+        println!("testing pcr extend");
+        let mut context = create_ctx_with_session();
+        let data = TPMU_HA {
+            sha256: [1; 32]
+        };
+        let digest_struct = TPMT_HA {
+            hashAlg: TPM2_ALG_SHA256,
+           digest: data,
+        };
+        let digests = TPML_DIGEST_VALUES {
+            count: 1,
+            digests: [digest_struct; 16],
+        };
+        let pcr_id = 0;
+        let ret = context.pcr_extend(pcr_id, &digests).unwrap();
+    }
+}
+
+
+
 mod test_pcr_read {
     use super::*;
 

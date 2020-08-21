@@ -740,6 +740,68 @@ impl Context {
         }
     }
 
+    /// Extend the value of a PCR slot associated with
+    /// a specific hashing algorithm and digest
+    /// 
+    /// ## Example extending PCR 0 with the SHA 256 digest 
+    /// "b5bb9d8014a0f9b1d61e21e796d78dccdf1352f23cd32812f4850b878ae4944c"
+    /// 
+    /// 
+    /// 
+    
+    pub fn pcr_extend(
+        &mut self,
+        pcr_handle: ESYS_TR,
+        digest_values_list: &TPML_DIGEST_VALUES
+    ) -> Result<()> {
+        let ret = unsafe {
+            Esys_PCR_Extend(
+                self.mut_context(),
+                pcr_handle,
+                self.sessions.0,
+                self.sessions.1,
+                self.sessions.2,
+                digest_values_list,
+            )
+        };
+        let ret = Error::from_tss_rc(ret);
+
+        if ret.is_success() {
+            Ok(())
+        } else {
+            error!("Error in extending PCR {}.", ret);
+            Err(ret)
+        }
+    }
+
+    pub fn wrapper_pcr_extend(
+        &mut self,
+        pcr_handle: ESYS_TR,
+        dvl: &TPML_DIGEST_VALUES
+    ) -> Result<()> {
+        let ret = unsafe {
+            Esys_PCR_Extend(
+                self.mut_context(),
+                pcr_handle,
+                self.sessions.0,
+                self.sessions.1,
+                self.sessions.2,
+                dvl,
+            )
+        };
+        let ret = Error::from_tss_rc(ret);
+
+        if ret.is_success() {
+            Ok(())
+        } else {
+            error!("Error in extending PCR {}.", ret);
+            Err(ret)
+        }
+    }
+
+
+
+
     /// Reads the value of a PCR slot associated with
     /// a specific hashing algorithm
     ///

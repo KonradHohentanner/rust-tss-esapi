@@ -65,6 +65,11 @@ pub use self::pcr_selection_list::PcrSelectionListBuilder;
 pub mod pcr_selection_list {
     pub use super::lists::pcr_selection::*;
 }
+pub use self::digest_value_list::DigestValueList;
+pub mod digest_value_list {
+    pub use super::lists::digest_value_list::*;
+}
+
 /////////////////////////////////////////////////////////
 /// The tickets section
 /////////////////////////////////////////////////////////
